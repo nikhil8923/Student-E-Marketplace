@@ -1,0 +1,9 @@
+# Dependencies ko ignore karne ke liye
+**/node_modules/
+
+# Sensitive passwords aur secrets ke liye
+**/.env
+
+# Build files ke liye
+**/build/
+**/dist/
