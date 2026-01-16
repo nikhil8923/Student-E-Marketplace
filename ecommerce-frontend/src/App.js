@@ -1,31 +1,41 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import './App.css';
 
 function App() {
   const [products, setProducts] = useState([]);
 
   useEffect(() => {
-    // Port 5000 is your Backend
     axios.get('http://localhost:5000/api/products')
       .then(res => setProducts(res.data))
-      .catch(err => console.error("Data fetch error:", err));
+      .catch(err => console.error("Error:", err));
   }, []);
 
   return (
-    <div style={{ textAlign: 'center', backgroundColor: '#eef2f3', minHeight: '100vh', padding: '20px' }}>
-      <h1 style={{ color: '#2c3e50' }}>DIT Student Market - Live Now</h1>
-      <div style={{ display: 'flex', justifyContent: 'center', gap: '20px', flexWrap: 'wrap' }}>
-        {products.length > 0 ? (
-          products.map(p => (
-            <div key={p.id} style={{ background: '#fff', border: '1px solid #ccc', padding: '20px', borderRadius: '10px' }}>
-              <h2>{p.name}</h2>
-              <p style={{ color: 'green', fontSize: '20px' }}>Price: ₹{p.price}</p>
+    <div className="App">
+      <nav className="navbar">
+        <h1 className="nav-logo">DIT Student Market</h1>
+      </nav>
+
+      <header className="hero-section">
+        <h1 className="main-title">Artificial Intelligence <br/> Powered Marketplace</h1>
+        <p className="sub-title">Connecting DIT University students with premium tech gear.</p>
+      </header>
+
+      <main className="product-grid">
+        {products.map((product, index) => (
+          <div key={product.id} className="product-card" style={{ animationDelay: `${index * 0.1}s` }}>
+            <div className="card-inner">
+              <h3>{product.name}</h3>
+              <div className="rating">
+                {"★".repeat(product.rating)}{"☆".repeat(5 - product.rating)}
+              </div>
+              <p className="price">₹{product.price}</p>
+              <button className="neon-button">View Details</button>
             </div>
-          ))
-        ) : (
-          <h3>Connecting to MySQL... Make sure Backend Port 5000 is ON</h3>
-        )}
-      </div>
+          </div>
+        ))}
+      </main>
     </div>
   );
 }
